@@ -1,0 +1,313 @@
+# Lab with Sudhir Wadhwa
+# sudhirwadhwa@gmail.com
+getwd()
+setwd('C:/Users/L03052618/Documents/Data Science SF/cupertino')
+ls
+#what did this do?
+options()
+#shows me whats in directory
+dir()
+file.exists("sudhir")
+file.exists("Lab1.R")
+# packages written by someone else
+help(package = graphics)
+help(package= stats) #this is something I need always. Tons of stats fns
+library(stats)
+#bioconductor packages for Uriel. Package has help file, documentation, 
+# email address of author. Submit package to CRAN. Audit committee accepts
+currentDirectory <- getwd()
+currentDirectory #awesome. that's what I wanted
+# control L in the console cleans previous output
+money <- 10000
+#check what's in my current directory
+files_full <- list.files(currentDirectory, full.names = TRUE)
+files_full
+
+# R has 5 basic object classes
+# character, numeric, integer, complex, logical
+?options
+
+# show a jpeg image
+library(jpeg)
+my_photo <- readJPEG("my file name. jpg")
+plot( params, xlim, ylim)
+rasterImage(my_photo, params)
+
+#try jpeg for real
+my_photo <- readJPEG("JamesPhoto.jpg")
+plot(1, type='n', xlim=c(100, 200), ylim=c(300, 350))
+rasterImage(my_photo, 100, 300, 150, 350)
+
+
+#store lots of values in k
+k <- 1:100
+class(k) # [1] "integer"
+# I would like a function that reprints my output up top like I copied in 43.
+
+x <- c('This', 'is', 'cool') #control Enter works like Alt Enter
+class(x) #character
+x[1] #indexing starts from 1
+
+#difference between integer k and numeric vector y is c fn
+y <- c(100, 200, 300, 400, 500)
+y
+class(y) #vector is not a class, class fn shows what the vector is made of
+
+Hello <- paste('Hello', 'from', 'California', sep='')
+Hello
+# Hello test
+Hello <- c('Hello', 'from', 'California', sep='')
+Hello
+class(Hello)
+class(Hello)
+Hello
+
+# MATRIX 
+mat <- matrix(1:50, nrow = 25, ncol = 5) # in this case repeats 1:50
+mat 
+
+# cbind is COLUMN BIND
+n <- c('james','nancy','raja','rama','kris','iris',
+       'ying','jason','james2','sachin','dave','raka','vanu','adit','sam','pat')
+# gl is Generate Factors. Generate  1 and 2, do that 8 times
+f <- gl(2, 8)
+d2 <- cbind(n,f)
+
+# COLUMN NAMES
+colnames(d2) <- c('Names', 'Class')
+d2
+class(d2) #always check class because each class supports different fns
+
+# c MAKES A VECTOR
+n <- c('james','nancy', 'raja', 'rama', 'kris')
+a <- c(22,21,29,43,16)
+g <- c('Male','Female','Male','Male','Female')
+i <- c(T,T,F,F,T)
+mydata <- cbind(n, a, g, i)
+colnames(mydata) <- c('Name', 'Age', 'Gender', 'isMarried')
+mydata
+mydata[1,]
+mydata[,5]
+mydata[,4]
+mydata[1:2,4]
+mydata[1,3:4]
+mydata[3:5,]
+row_filter <- c(1,2,5)
+mydata[row_filter,]
+mydata[,c(1,4)]
+
+#Added an Uriel row
+new_row <- c('Uriel', 26, 'Male', F)
+mydata <- rbind(mydata, new_row)
+mydata
+
+rownames(mydata) <- c('','','','','','')
+mydata
+
+a1 <- 1:5
+a2 <- 200: 2004
+a3 <- rbind(a1,a2)
+a3
+
+# Create vector with different classes
+l1 <- list('this', 100, 'pound', 'of mess', TRUE)
+l1
+
+# clean out NA
+dirty <- c(50,6,NA,NA,4,6,NA,6,5,5,7)
+# finds NA in a vector
+is.na(dirty)
+max(dirty)
+max(dirty, na.rm=TRUE)
+l1[1]
+
+# DAta Frame very important
+Names <- c('James', 'Nany', 'Kim', 'Sunder', 'Oka')
+Owner <- c(F,F,T,T,T)
+Race <- c('Asian', 'Asian', NA, 'White', NA)
+OwnTheHouse <- data.frame(Names, Owner, Race)
+OwnTheHouse
+rownames(OwnTheHouse)
+
+# push to cloud using shiny
+# https://sudhirwadhwa.shinyapps.io/IMAGE
+
+# for loop is very expensive in R
+# for loop is too slow for real time large Machine learning
+# use APPLY instead of FOR
+matr <- matrix(1:10, 2, 5)
+SumOfTheRows <- apply(matr, 1, sum)
+SumOfTheRows
+SumOfTheColumns <- apply(matr,2, sum)
+SumOfTheColumns
+
+#Write a function
+halfIt <- function (k) {k/2}
+halfIt(10)
+#Wrote my first funciont. Second APPLY param can be 1=row or 2=column
+HalfMatrix <- apply(matr,2, halfIt)
+HalfMatrix
+
+#L4
+l4 <- list(ht=1:7, b=rnorm(12))
+lapply(l4, max)
+#LAPPLY uses APPLY on a List
+
+First_col <- function (e) {e[,1]}
+First_row <- function (f) {f[1,]}
+
+list9 <- list (first = matrix(1:20, 5, 4), second = matrix(101:200, 20, 10))
+list9
+First_row # doesn't work
+# use lapply
+lapply(list9, First_col)
+lapply(list9, First_row)
+
+# Read XML file. alternative to CSV or JSON
+dir()
+library(xml2)
+xml_file <- read_xml('sample.xml')
+xml_file
+
+library(XML)
+library(xml2)
+web_page <- 'http://www.yelp.com/biz/toyota-sunnyvale-sunnyvale'
+# READLINES reads a url passed in as an argument
+SunnyPage <- readLines(web_page)
+web_page
+head(SunnyPage)
+
+parse_SunnyPage <- htmlParse(SunnyPage)
+parse_SunnyPage
+phone <- xpathApply (parse_SunnyPage, "//span[@class='biz-phone']"
+                    , fun = xmlValue)[1]
+phone
+
+# Download ZIP FILE from Internet
+if(file.exists('ml-100k.zip')){
+    print("file already exists in computer. Hi james!")
+} else {
+  download.file('http://files.grouplens.org/datasets/movielens/ml-100k.zip',
+                destfile = 'ml-100k.zip')}
+
+
+unzip("ml-100k.zip", 
+      exdir = "/Users/L03052618/Documents/Data Science SF/cupertino")
+dir("/Users/L03052618/Documents/Data Science SF/cupertino/ml-100k")
+
+
+
+# skipped Maryland Lab. ask Sudhir for it.
+
+
+# MACHINE LEARNING FOR HOUSE DATA 
+trainingdata_cupertino <- read.csv(file="trainingdataset_cupertino.csv", head=T,
+                    sep=":")
+summary(trainingdata_cupertino)
+nrow(trainingdata_cupertino)
+nrow(na.omit(trainingdata_cupertino)) # got rid of 1
+nrow(trainingdata_cupertino)-nrow(na.omit(trainingdata_cupertino))
+
+names(trainingdata_cupertino) #columns are called features
+#feature engineering is work with columns, also called features
+
+# Houses with 3 bedrooms
+bed3 <- subset(trainingdata_cupertino, Beds == 3, select = c(Address, Beds, Baths, USD))
+bed3
+min(bed3[,4])
+max(bed3[,4])
+trainingdata_cupertino$Beds
+na.omit(trainingdata_cupertino$Beds)
+
+# 3 beds and select "engineer" for a few features
+bed3 <- subset(trainingdata_cupertino, Beds == 3, select= c(TotalSqft, USD))
+bed3
+
+# create Cost/sqft
+bed3$CostSqft <- bed3$USD/bed3$TotalSqft
+bed3
+summary(bed3)
+
+#use summary plots
+par(mfrow=c(2,2))
+plot(trainingdata_cupertino$USD ~ trainingdata_cupertino$TotalSqft)
+plot(trainingdata_cupertino$USD ~ trainingdata_cupertino$Baths)
+plot(trainingdata_cupertino$USD ~ trainingdata_cupertino$Beds)
+plot(trainingdata_cupertino$USD ~ trainingdata_cupertino$Address)
+
+# use ggplot
+library(ggplot2)
+sqft <- trainingdata_cupertino$TotalSqft
+price <- trainingdata_cupertino$USD
+price <- format(price, scientific=F)
+#plot with some params
+qplot(sqft, price, data = trainingdata_cupertino) + geom_point(alpha= 1/100)
+qplot(sqft, price, data = trainingdata_cupertino) + 
+  geom_point(colour = 'red', size = 5)
+
+# add new variable about bedrooms
+bd <- trainingdata_cupertino$Beds
+qplot(sqft, price, data= trainingdata_cupertino, colour = bd)
+# change data point color and size based on bedrooms
+# use geom_point or not
+# don't have to use british spelling of color
+qplot(sqft, price, data=trainingdata_cupertino, size=bd, colour=bd)
+qplot(sqft, price, data=trainingdata_cupertino)+geom_point(size=bd, color=bd)
+# color param in qplot gives one color on a darkness spectrum
+# color as a geom_point param gives distinct colors
+
+# lots of good graphic params
+qplot(sqft, price, data = trainingdata_cupertino) + 
+  aes(shape = factor(bd)) + 
+  geom_point(aes(color = factor(bd)), size = 4) +
+  geom_pointgeom_point(color = "grey90", size= 3)
+
+# MACHINE LEARNING 80/20 LAB
+completeData <- read.csv(file = 'c.csv', header=T, sep = ":")
+View(completeData)
+
+set.seed(100) # set seed so that random generator can be repeated later
+trainingRowIndex <- sample(1:nrow(completeData), 0.8*nrow(completeData))
+trainingRowIndex
+training_data <- completeData[trainingRowIndex,]
+test_data <- completeData[-trainingRowIndex,]
+dim(training_data) # dim function shows number rows and columns
+dim(test_data)
+
+# lm is machine learning linear regression. define model on training data
+usd.lm <- lm(USD ~ TotalSqft, data=training_data)
+# prediction function, prediction algorithm makes predictions
+# it predicts based on usd.lm and test_data
+usd.pred <- predict(usd.lm, test_data)
+summary(usd.lm) # shows linear reg output
+
+# try another
+usd.lm.2 <- lm(USD ~ TotalSqft+Beds+Baths, data=training_data)
+usd.lm.3 <- lm(USD ~ TotalSqft+Beds, data=training_data)
+
+# check accuracy
+actuals_preds <- data.frame(cbind(actuals=test_data$USD, predicteds=usd.pred))
+head(actuals_preds)
+correlation_accuracy <- cor(actuals_preds)
+head(actuals_preds)
+correlation_accuracy # what does this output mean ?
+
+min_max_accuracy <- mean(apply(actuals_preds, 1, min) / apply(actuals_preds,
+          1, max))
+mape <- mean(abs((actuals_preds$predicteds - actuals_preds$actuals)) / 
+               actuals_preds$actuals)
+min_max_accuracy
+mape
+new.house.prediction <- predict(usd.lm, data.frame(TotalSqft=2057))
+new.house.prediction # Cool. used a model I made to make a prediction on a cold house
+predict(usd.lm, data.frame(TotalSqft=4000))
+
+# unsupervised k-means clustering
+library(cluster)
+library(fpc)
+data(iris)
+iris
+
+dat <- iris[, -5]
+cluster <- kmeans(dat, centers= 3)
+plotcluster(dat, cluster$cluster)
