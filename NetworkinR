@@ -1,0 +1,14 @@
+library(networkD3)
+nodes <- read.csv("Dataset1-Media-Example-NODES.csv", header=T, as.is=T)
+edges <- read.csv("Dataset1-Media-Example-EDGES.csv", header=T, as.is=T)
+e1 <- data.frame(from=as.numeric(factor(edges$from))-1,
+        to=as.numeric(factor(edges$to))-1)
+e1
+n1 <- cbind(idn=factor(nodes$media, levels=nodes$media), nodes)
+n1
+JamesWork <- forceNetwork(Links = e1, Nodes = n1, Source='from', Target = 'to', 
+             NodeID = 'idn', Group = 'type.label', linkWidth = 1, 
+             linkColour = '#afafaf', fontSize = 12, zoom = T, legend = T,
+             Nodesize = 6, opacity = 0.8, charge = -300, width = 600,
+             height = 400)
+JamesWork
