@@ -1,0 +1,21 @@
+# Download ZIP FILE from Internet
+if(file.exists('ml-100k.zip')){
+    print("file already exists in computer. Hi james!")
+} else {
+  download.file('http://files.grouplens.org/datasets/movielens/ml-100k.zip',
+                destfile = 'ml-100k.zip')}
+
+
+unzip("ml-100k.zip", 
+      exdir = "/Users/L03052618/Documents/Data Science SF/cupertino")
+dir("/Users/L03052618/Documents/Data Science SF/cupertino/ml-100k")
+
+# use data from zip file
+movieRating <- read.table("/Users/L03052618/Documents/Data Science SF/cupertino/ml-100k/u.data", header=F, sep= "\t",
+      col.names = c("userID", "movieID", "ratings", "TimeStamp"))
+head(movieRating)
+
+# get timestamp in human calendar
+# but really I should create another column and then transform that. Because I altered the original data
+movieRating$TimeStamp <- as.POSIXct(movieRating$TimeStamp, origin = "1970-01-01")
+head(movieRating)
