@@ -1,0 +1,32 @@
+installed.packages()
+a <- installed.packages()
+listofpackages <- a[,1]
+listofpackages
+dim(a)
+is.element("magrittr", listofpackages)
+is.element("leaflet", listofpackages)
+install.packages("leaflet")
+
+library(magrittr)
+library(leaflet)
+
+# pipe operator control shift M %>%
+# Johns Hopkins and Medical field uses R. More techy IT uses Python
+birthJames <- leaflet() %>% addTiles() %>% addMarkers(lng=39.098367 , lat=-77.087407 , 
+                        popup="James' home")
+birthJames
+
+# world map of flights
+library(rworldmap)
+Euro_airports <- read.csv('airports.dat', header=F)
+colnames(Euro_airports) <- c('ID', 'name','city','country','IATA_FAA',
+            'ICAO','lati','longi','altitude','Time zone','DST')
+head(Euro_airports)
+Euro_airports[,2]
+max(Euro_airports[,9])
+
+#map of euro flights
+newmap <- getMap(resolution = 'low') #plots map 
+plot(newmap)
+plot(newmap, xlim = c(-20, 59), ylim = c(35, 71), asp = 1)
+points(Euro_airports$longi, Euro_airports$lati, col = 'blue', cex = .6)
